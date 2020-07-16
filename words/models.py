@@ -8,9 +8,7 @@ class words(models.Model):
     sentence2 = models.TextField()
     etymology = models.TextField()
     mnemonic = models.TextField()
+    hardness_level = models.IntegerField()
 
-
-def __str__(self):
-    return self.word
 
 # Create your models here.
