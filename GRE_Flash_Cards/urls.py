@@ -21,4 +21,5 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('get_all_words/', views.word_list.as_view()),
+    path('word/<int:pk>/', views.WordDetail.as_view()),
 ]
