@@ -58,3 +58,22 @@ class WordDetail(APIView):
         word = self.get_object(pk)
         word.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class prefix_word_search(APIView):
+    """
+    List all code snippets, or create a new snippet.
+    """
+
+    def get(self, request,prefix):
+
+        all_words = words.objects.all()
+        serializer = WordSerializer(all_words, many=True)
+        #print(serializer.data)
+        result_list=[]
+        for w in serializer.data:
+            if w['word'].startswith(prefix):
+                result_list.append(w['word'])
+
+        #return Response(serializer.data)  # this one is for fancy rest framework response
+        return JsonResponse(result_list, safe=False) #this one will only give the json format
