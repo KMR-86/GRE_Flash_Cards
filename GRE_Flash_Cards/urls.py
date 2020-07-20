@@ -15,12 +15,35 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
+
 from words import views
+try:
+    import coreapi
+except ImportError:
+    coreapi = None
+
+try:
+    import uritemplate
+except ImportError:
+    uritemplate = None
+
+
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('get_all_words/', views.word_list.as_view()),
     path('word/<int:pk>/', views.WordDetail.as_view()),
-    path('search/<prefix>/',views.prefix_word_search.as_view())
+    path('search/<prefix>/', views.prefix_word_search.as_view()),
+    path('swagger-ui/', TemplateView.as_view(
+        template_name='swagger-ui.html',
+        extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
+    path('openapi/', get_schema_view(
+        title="Your Project",
+        description="API for all things …",
+        version="1.0.0"
+    ), name='openapi-schema'),
 ]
